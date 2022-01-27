@@ -17,6 +17,7 @@ import java.util.Arrays;
  **/
 public class Code01_MergeSort {
 
+
 	public static void mergeSort(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;
