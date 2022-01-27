@@ -1,31 +1,49 @@
-package com.song;
+package com.song.base.day02;
 
 import java.util.Arrays;
 
+public class Code03_HeapSort {
 
-/* *
- * @program: DataStructureAndAlgorithmByZuo
- * @description 插入排序
- * @author: swq
- * @create: 2022-01-25 16:51
- **/
-public class Code03_InsertionSort {
-
-	public static void insertionSort(int[] arr) {
+	public static void heapSort(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		for (int i = 1; i < arr.length; i++) {
-			for (int j = i - 1; j >= 0 && arr[j] > arr[j + 1]; j--) {
-				swap(arr, j, j + 1);
+		for (int i = 0; i < arr.length; i++) {
+			heapInsert(arr, i);
+		}
+		int size = arr.length;
+		swap(arr, 0, --size);
+		while (size > 0) {
+			heapify(arr, 0, size);
+			swap(arr, 0, --size);
+		}
+	}
+
+	public static void heapInsert(int[] arr, int index) {
+		while (arr[index] > arr[(index - 1) / 2]) {
+			swap(arr, index, (index - 1) /2);
+			index = (index - 1)/2 ;
+		}
+	}
+
+	public static void heapify(int[] arr, int index, int size) {
+		int left = index * 2 + 1;
+		while (left < size) {
+			int largest = left + 1 < size && arr[left + 1] > arr[left] ? left + 1 : left;
+			largest = arr[largest] > arr[index] ? largest : index;
+			if (largest == index) {
+				break;
 			}
+			swap(arr, largest, index);
+			index = largest;
+			left = index * 2 + 1;
 		}
 	}
 
 	public static void swap(int[] arr, int i, int j) {
-		arr[i] = arr[i] ^ arr[j];
-		arr[j] = arr[i] ^ arr[j];
-		arr[i] = arr[i] ^ arr[j];
+		int tmp = arr[i];
+		arr[i] = arr[j];
+		arr[j] = tmp;
 	}
 
 	// for test
@@ -93,7 +111,7 @@ public class Code03_InsertionSort {
 		for (int i = 0; i < testTime; i++) {
 			int[] arr1 = generateRandomArray(maxSize, maxValue);
 			int[] arr2 = copyArray(arr1);
-			insertionSort(arr1);
+			heapSort(arr1);
 			comparator(arr2);
 			if (!isEqual(arr1, arr2)) {
 				succeed = false;
@@ -104,7 +122,7 @@ public class Code03_InsertionSort {
 
 		int[] arr = generateRandomArray(maxSize, maxValue);
 		printArray(arr);
-		insertionSort(arr);
+		heapSort(arr);
 		printArray(arr);
 	}
 

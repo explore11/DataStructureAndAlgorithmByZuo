@@ -1,4 +1,4 @@
-package com.song;
+package com.song.base.day01;
 
 public class Code09_FindOneLessValueIndex {
 

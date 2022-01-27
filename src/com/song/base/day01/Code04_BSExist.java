@@ -1,5 +1,10 @@
-package com.song;
-
+package com.song.base.day01;
+/* *
+ * @program: DataStructureAndAlgorithmByZuo
+ * @description 在一个有序的数组中 查询某一数值是否存在 二分法
+ * @author: swq
+ * @create: 2022-01-25 16:51
+ **/
 public class Code04_BSExist {
 
 	public static boolean exist(int[] sortedArr, int num) {
