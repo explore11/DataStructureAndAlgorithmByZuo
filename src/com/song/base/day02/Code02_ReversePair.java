@@ -1,6 +1,6 @@
 package com.song.base.day02;
 
-/**
+/* *
  * @program: DataStructureAndAlgorithmByZuo
  * @description 逆序对问题
  * 在一个排列数组中，如果一对数的前后位置与大小顺序相反，即前面的数大于后面的数，那么它们就称为一个逆序对。

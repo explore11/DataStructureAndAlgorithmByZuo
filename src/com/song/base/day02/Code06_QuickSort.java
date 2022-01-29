@@ -2,6 +2,17 @@ package com.song.base.day02;
 
 import java.util.Arrays;
 
+/**
+ * @program: DataStructureAndAlgorithmByZuo
+ * @description 快速排序  快速排序(Quick Sort)使用分治法策略。 O(n*logN)
+ * 选择一个基准数，通过一趟排序将要排序的数据分割成独立的两部分；
+ * 其中一部分的所有数据都比另外一部分的所有数据都要小。
+ * 然后，再按此方法对这两部分数据分别进行快速排序，整个排序过程可以递归进行，以此达到整个数据变成有序序列。
+ *
+ *
+ * @author: swq
+ * @create: 2022-01-25 16:51
+ **/
 public class Code06_QuickSort {
 
 	public static void quickSort(int[] arr) {
@@ -11,6 +22,13 @@ public class Code06_QuickSort {
 		quickSort(arr, 0, arr.length - 1);
 	}
 
+	/**
+	 * 分区的过程，整数数组 arr 的[L, R]部分上，使得：
+	 *   大于 arr[R] 的元素位于[L, R]部分的右边，但这部分数据不一定有序
+	 *   小于 arr[R] 的元素位于[L, R]部分的左边，但这部分数据不一定有序
+	 *   等于 arr[R] 的元素位于[L, R]部分的中间
+	 * 返回等于部分的第一个元素的下标和最后一个下标组成的整数数组
+	 */
 	public static void quickSort(int[] arr, int l, int r) {
 		if (l < r) {
 			swap(arr, l + (int) (Math.random() * (r - l + 1)), r);

@@ -1,16 +1,31 @@
 package com.song.base.day02;
 
 import java.util.Arrays;
-
+/* *
+ * @program: DataStructureAndAlgorithmByZuo
+ * @description 堆排序
+ * 在一个排列数组中，如果一对数的前后位置与大小顺序相反，即前面的数大于后面的数，那么它们就称为一个逆序对。
+ *
+ * @author: swq
+ * @create: 2022-01-25 16:51
+ **/
 public class Code03_HeapSort {
 
 	public static void heapSort(int[] arr) {
 		if (arr == null || arr.length < 2) {
 			return;
 		}
-		for (int i = 0; i < arr.length; i++) {
-			heapInsert(arr, i);
+
+//		// O(N*logN)
+//		for (int i = 0; i < arr.length; i++) {
+//			heapInsert(arr, i);
+//		}
+
+		// O(N)
+		for (int i = arr.length - 1; i >= 0; i--) {
+			heapify(arr, i, arr.length);
 		}
+
 		int size = arr.length;
 		swap(arr, 0, --size);
 		while (size > 0) {
@@ -26,15 +41,25 @@ public class Code03_HeapSort {
 		}
 	}
 
+	// arr[index]位置的数，能否往下移动
 	public static void heapify(int[] arr, int index, int size) {
+		// 左孩子的下标
 		int left = index * 2 + 1;
+		// 下方还有孩子的时候
 		while (left < size) {
+			// 两个孩子中，谁的值大，把下标给largest
+			// 1）只有左孩子，left -> largest
+			// 2) 同时有左孩子和右孩子，右孩子的值<= 左孩子的值，left -> largest
+			// 3) 同时有左孩子和右孩子并且右孩子的值> 左孩子的值， right -> largest
 			int largest = left + 1 < size && arr[left + 1] > arr[left] ? left + 1 : left;
+			// 父和较大的孩子之间，谁的值大，把下标给largest
 			largest = arr[largest] > arr[index] ? largest : index;
 			if (largest == index) {
 				break;
 			}
+			// 交换
 			swap(arr, largest, index);
+			// 更新索引
 			index = largest;
 			left = index * 2 + 1;
 		}
