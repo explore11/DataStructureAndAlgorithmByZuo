@@ -1,5 +1,16 @@
 package com.song.base.day04;
 
+/**
+ * @program: DataStructureAndAlgorithmByZuo
+ * @description
+ * 【题目】给定一个单链表的头节点head，节点的值类型是整型，再给定一个整数 pivot。
+ * 实现一个调整链表的函数，将链表调整为左部分都是值小于pivot的节点，
+ * 中间部分都是值等于pivot的节点，右部分都是值大于pivot的节点。
+ *
+ *
+ * @author: swq
+ * @create: 2022-01-25 16:51
+ **/
 public class Code05_SmallerEqualBigger {
 
 	public static class Node {
@@ -11,33 +22,44 @@ public class Code05_SmallerEqualBigger {
 		}
 	}
 
+	// 第一种方式  将链表转化为数组 用数组进行分区
 	public static Node listPartition1(Node head, int pivot) {
 		if (head == null) {
 			return head;
 		}
 		Node cur = head;
-		int i = 0;
+		int length = 0;
+		// 计算数组的长度
 		while (cur != null) {
-			i++;
+			length++;
 			cur = cur.next;
 		}
-		Node[] nodeArr = new Node[i];
-		i = 0;
+		//创建数组
+		Node[] nodeArr = new Node[length];
+		length = 0;
 		cur = head;
-		for (i = 0; i != nodeArr.length; i++) {
-			nodeArr[i] = cur;
+		// 链表转成数组
+		for (length = 0; length != nodeArr.length; length++) {
+			nodeArr[length] = cur;
 			cur = cur.next;
 		}
+		// 数组进行分区处理
 		arrPartition(nodeArr, pivot);
-		for (i = 1; i != nodeArr.length; i++) {
-			nodeArr[i - 1].next = nodeArr[i];
+
+		// 操作完成的数组转成链表
+		for (length = 1; length != nodeArr.length; length++) {
+			nodeArr[length - 1].next = nodeArr[length];
 		}
-		nodeArr[i - 1].next = null;
+		//最后一个置为null
+		nodeArr[length - 1].next = null;
+		//返回头节点
 		return nodeArr[0];
 	}
 
 	public static void arrPartition(Node[] nodeArr, int pivot) {
+		// 小于区域
 		int small = -1;
+		//大于区域
 		int big = nodeArr.length;
 		int index = 0;
 		while (index != big) {
@@ -57,55 +79,77 @@ public class Code05_SmallerEqualBigger {
 		nodeArr[b] = tmp;
 	}
 
+	// 第二种方式  使用有限的几个变量进行处理
 	public static Node listPartition2(Node head, int pivot) {
-		Node sH = null; // small head
-		Node sT = null; // small tail
-		Node eH = null; // equal head
-		Node eT = null; // equal tail
-		Node bH = null; // big head
-		Node bT = null; // big tail
+		Node smallHead = null; // small head
+		Node smallTail = null; // small tail
+		Node equalHead = null; // equal head
+		Node equalTail = null; // equal tail
+		Node biggerHead = null; // big head
+		Node biggerTail = null; // big tail
+
 		Node next = null; // save next node
 		// every node distributed to three lists
 		while (head != null) {
+			// 获取下一个节点
 			next = head.next;
+			// 去除后边的连接
 			head.next = null;
-			if (head.value < pivot) {
-				if (sH == null) {
-					sH = head;
-					sT = head;
+			// 和给定的值进行比较
+			if (head.value < pivot) { // 小于给定的值
+				if (smallHead == null) {
+					// 如果 smallHead 为空的话 说明 smallHead smallTail 都还没有值
+					// 将当前节点赋值为  smallHead smallTail
+					smallHead = head;
+					smallTail = head;
 				} else {
-					sT.next = head;
-					sT = head;
+					//如果 smallHead 不为空的话 将当前节点挂在尾节点的下一个节点
+					smallTail.next = head;
+					// 尾节点下移
+					smallTail = head;
 				}
-			} else if (head.value == pivot) {
-				if (eH == null) {
-					eH = head;
-					eT = head;
+			} else if (head.value == pivot) { // 等于给定的值
+				if (equalHead == null) {
+					// 如果 equalHead 为空的话 说明 equalHead equalTail 都还没有值
+					// 将当前节点赋值为  equalHead equalTail
+					equalHead = head;
+					equalTail = head;
 				} else {
-					eT.next = head;
-					eT = head;
+					//如果 equalHead 不为空的话 将当前节点挂在尾节点的下一个节点
+					equalTail.next = head;
+					// 尾节点下移
+					equalTail = head;
 				}
-			} else {
-				if (bH == null) {
-					bH = head;
-					bT = head;
+			} else {// 大于给定的值
+				if (biggerHead == null) {
+					// 如果 biggerHead 为空的话 说明 biggerHead biggerTail 都还没有值
+					// 将当前节点赋值为  biggerHead biggerTail
+					biggerHead = head;
+					biggerTail = head;
 				} else {
-					bT.next = head;
-					bT = head;
+					//如果 biggerHead 不为空的话 将当前节点挂在尾节点的下一个节点
+					biggerTail.next = head;
+					// 尾节点下移
+					biggerTail = head;
 				}
 			}
+			//节点向下移动
 			head = next;
 		}
+
+		// 将小于 等于 大于的区域首尾相连接
 		// small and equal reconnect
-		if (sT != null) {
-			sT.next = eH;
-			eT = eT == null ? sT : eT;
+		if (smallTail != null) {
+			smallTail.next = equalHead;
+			// 判断等于区域是否存在
+			equalTail = equalTail == null ? smallTail : equalTail;
 		}
 		// all reconnect
-		if (eT != null) {
-			eT.next = bH;
+		if (equalTail != null) {
+			equalTail.next = biggerHead;
 		}
-		return sH != null ? sH : eH != null ? eH : bH;
+		// 判断小于区域、等于区域是否存在
+		return smallHead != null ? smallHead : equalHead != null ? equalHead : biggerHead;
 	}
 
 	public static void printLinkedList(Node node) {
