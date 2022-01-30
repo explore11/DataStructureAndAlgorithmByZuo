@@ -3,6 +3,12 @@ package com.song.base.day05;
 import java.util.HashMap;
 import java.util.HashSet;
 
+/* *
+ * @program: DataStructureAndAlgorithmByZuo
+ * @description 给定两个二叉树的节点node1和node2，找到他们的最低公共祖先节点
+ * @author: swq
+ * @create: 2022-01-25 16:51
+ **/
 public class Code07_LowestCommonAncestor {
 
 	public static class Node {
@@ -15,6 +21,48 @@ public class Code07_LowestCommonAncestor {
 		}
 	}
 
+	// 第一种方式
+	public static Node lowestAncestor1(Node head, Node o1, Node o2) {
+		if (head == null) {
+			return null;
+		}
+		// key是当前节点  value是父节点
+		HashMap<Node, Node> parentMap = new HashMap<>();
+		//添加头节点
+		parentMap.put(head, null);
+		// 地柜添加数据
+		fillParentMap(head, parentMap);
+
+		HashSet<Node> o1Set = new HashSet<>();
+		//存放o1的父链接节点
+		Node cur = o1;
+		o1Set.add(cur);
+		while (parentMap.get(cur) != null) {
+			cur = parentMap.get(cur);
+			o1Set.add(cur);
+		}
+
+		cur = o2;
+		// 循环o2的父链接 判断是否在o1set中出现过 第一次出现的就是最小公共祖先
+		while (!o1Set.contains(cur)) {
+			cur = parentMap.get(cur);
+		}
+		return cur;
+	}
+
+	public static void fillParentMap(Node head, HashMap<Node, Node> parentMap) {
+		if (head.left != null) {
+			parentMap.put(head.left, head);
+			fillParentMap(head.left, parentMap);
+		}
+		if (head.right != null) {
+			parentMap.put(head.right, head);
+			fillParentMap(head.right, parentMap);
+		}
+	}
+
+
+	// 第二种方式
 	public static Node lowestAncestor(Node head, Node o1, Node o2) {
 		if (head == null || head == o1 || head == o2) {
 			return head;

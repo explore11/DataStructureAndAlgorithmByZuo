@@ -1,5 +1,30 @@
 package com.song.base.day05;
-
+/* *
+ * @program: DataStructureAndAlgorithmByZuo
+ * @description 二叉算树法中找到一个节点的后继节点
+ * 【题目】 现在有一种新的二叉树节点类型如下:
+ * public class Node
+ * {
+ * public int value;
+ * public Node left;
+ * public Node right;
+ * public Node parent;
+ * public Node(int val){
+ * value = val;
+ * }
+ * }
+ * 该结构比普通二叉树节点结构多了一个指向父节点的parent指针。
+ * 假设有一棵Node类型的节点组成的二叉树，
+ * 树中每个节点的parent指针都正确地指向自己的父节点，
+ * 头节点的parent指向null。
+ * 只给一个在二叉树中的某个节点node，
+ * 请实现返回node的后继节点的函数。
+ * 在二叉树的中序遍历的序列中，
+ * node的下一个节点叫作node的后继节点。
+ *
+ * @author: swq
+ * @create: 2022-01-25 16:51
+ **/
 public class Code08_SuccessorNode {
 
 	public static class Node {
@@ -13,13 +38,20 @@ public class Code08_SuccessorNode {
 		}
 	}
 
+	//有两种方式
+	// 第一种 中序遍历所有节点 放到数组中  在数组中找
+	// 第二种
+	// 如果这个节点的右孩子不为空 则返回这个右孩子的最左节点
+	// 如果这个节点的右孩子为空 则去找这个节点的父节点 并判断当前节点是不是父节点的左孩子 如果不是再继续向上寻找
 	public static Node getSuccessorNode(Node node) {
 		if (node == null) {
 			return node;
 		}
+		// 节点的右孩子不为空 则返回这个右孩子的最左节点
 		if (node.right != null) {
 			return getLeftMost(node.right);
 		} else {
+			//这个节点的右孩子为空 则去找这个节点的父节点 并判断当前节点是不是父节点的左孩子 如果不是再继续向上寻找
 			Node parent = node.parent;
 			while (parent != null && parent.left != node) {
 				node = parent;

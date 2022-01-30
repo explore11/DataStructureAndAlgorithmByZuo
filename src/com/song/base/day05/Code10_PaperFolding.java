@@ -11,12 +11,12 @@ public class Code10_PaperFolding {
 			return;
 		}
 		printProcess(i + 1, N, true);
-		System.out.println(down ? "down " : "up ");
+		System.out.print(down ? "凹 " : "凸 ");
 		printProcess(i + 1, N, false);
 	}
 
 	public static void main(String[] args) {
-		int N = 1;
+		int N = 3;
 		printAllFolds(N);
 	}
 }

@@ -1,5 +1,10 @@
 package com.song.base.day05;
-
+/* *
+ * @program: DataStructureAndAlgorithmByZuo
+ * @description 如何判断一颗二叉树是否是平衡二叉树？
+ * @author: swq
+ * @create: 2022-01-25 16:51
+ **/
 public class Code06_IsBalancedTree {
 
 	public static class Node {
